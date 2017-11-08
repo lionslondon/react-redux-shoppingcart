@@ -1494,50 +1494,6 @@ module.exports = invariant;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(29);
-var IE8_DOM_DEFINE = __webpack_require__(108);
-var toPrimitive = __webpack_require__(70);
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__(30) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(111);
-var defined = __webpack_require__(72);
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1574,10 +1530,54 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(9)))
 
 /***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(29);
+var IE8_DOM_DEFINE = __webpack_require__(108);
+var toPrimitive = __webpack_require__(70);
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__(30) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(111);
+var defined = __webpack_require__(72);
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(24);
+var dP = __webpack_require__(25);
 var createDesc = __webpack_require__(40);
 module.exports = __webpack_require__(30) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
@@ -3944,8 +3944,8 @@ module.exports = Object.create || function create(O, Properties) {
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var def = __webpack_require__(24).f;
-var has = __webpack_require__(25);
+var def = __webpack_require__(25).f;
+var has = __webpack_require__(26);
 var TAG = __webpack_require__(17)('toStringTag');
 
 module.exports = function (it, tag, stat) {
@@ -3968,7 +3968,7 @@ var global = __webpack_require__(21);
 var core = __webpack_require__(16);
 var LIBRARY = __webpack_require__(80);
 var wksExt = __webpack_require__(83);
-var defineProperty = __webpack_require__(24).f;
+var defineProperty = __webpack_require__(25).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
@@ -5633,10 +5633,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.addToCart = addToCart;
+exports.deleteCartItem = deleteCartItem;
 function addToCart(book) {
     return {
         type: "ADD_TO_CART",
         payload: book
+    };
+}
+
+//DELETE From Cart
+function deleteCartItem(cart) {
+    return {
+        type: "DELETE_CART_ITEM",
+        payload: cart
     };
 }
 
@@ -6096,8 +6105,8 @@ module.exports = function (it) {
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(25);
-var toIObject = __webpack_require__(26);
+var has = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var arrayIndexOf = __webpack_require__(201)(false);
 var IE_PROTO = __webpack_require__(74)('IE_PROTO');
 
@@ -6173,7 +6182,7 @@ var LIBRARY = __webpack_require__(80);
 var $export = __webpack_require__(20);
 var redefine = __webpack_require__(115);
 var hide = __webpack_require__(28);
-var has = __webpack_require__(25);
+var has = __webpack_require__(26);
 var Iterators = __webpack_require__(43);
 var $iterCreate = __webpack_require__(206);
 var setToStringTag = __webpack_require__(82);
@@ -6266,9 +6275,9 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 var pIE = __webpack_require__(42);
 var createDesc = __webpack_require__(40);
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var toPrimitive = __webpack_require__(70);
-var has = __webpack_require__(25);
+var has = __webpack_require__(26);
 var IE8_DOM_DEFINE = __webpack_require__(108);
 var gOPD = Object.getOwnPropertyDescriptor;
 
@@ -6432,7 +6441,7 @@ module.exports = { "default": __webpack_require__(231), __esModule: true };
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys = __webpack_require__(41);
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var isEnum = __webpack_require__(42).f;
 module.exports = function (isEntries) {
   return function (it) {
@@ -9784,7 +9793,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(12);
 
-var _redux = __webpack_require__(27);
+var _redux = __webpack_require__(24);
 
 var _index = __webpack_require__(181);
 
@@ -30563,7 +30572,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _redux = __webpack_require__(27);
+var _redux = __webpack_require__(24);
 
 var _booksReducers = __webpack_require__(182);
 
@@ -30668,10 +30677,10 @@ function booksReducers() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.cartReducers = cartReducers;
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function cartReducers() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
     var action = arguments[1];
@@ -30679,7 +30688,10 @@ function cartReducers() {
 
     switch (action.type) {
         case "ADD_TO_CART":
-            return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
+            return _extends({}, state, { cart: action.payload });
+            break;
+        case "DELETE_CART_ITEM":
+            return _extends({}, state, { cart: action.payload });
             break;
     }
     return state;
@@ -31111,7 +31123,7 @@ function shallowEqual(objA, objB) {
 /* unused harmony export whenMapDispatchToPropsIsFunction */
 /* unused harmony export whenMapDispatchToPropsIsMissing */
 /* unused harmony export whenMapDispatchToPropsIsObject */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrapMapToProps__ = __webpack_require__(105);
 
 
@@ -31370,7 +31382,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(36);
 
-var _redux = __webpack_require__(27);
+var _redux = __webpack_require__(24);
 
 var _booksActions = __webpack_require__(67);
 
@@ -31583,7 +31595,7 @@ module.exports = !$assign || __webpack_require__(39)(function () {
 
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var toLength = __webpack_require__(112);
 var toAbsoluteIndex = __webpack_require__(202);
 module.exports = function (IS_INCLUDES) {
@@ -31681,7 +31693,7 @@ module.exports = function (Constructor, NAME, next) {
 /* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(24);
+var dP = __webpack_require__(25);
 var anObject = __webpack_require__(29);
 var getKeys = __webpack_require__(41);
 
@@ -31709,7 +31721,7 @@ module.exports = document && document.documentElement;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(25);
+var has = __webpack_require__(26);
 var toObject = __webpack_require__(78);
 var IE_PROTO = __webpack_require__(74)('IE_PROTO');
 var ObjectProto = Object.prototype;
@@ -31757,7 +31769,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
 var addToUnscopables = __webpack_require__(212);
 var step = __webpack_require__(213);
 var Iterators = __webpack_require__(43);
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 
 // 22.1.3.4 Array.prototype.entries()
 // 22.1.3.13 Array.prototype.keys()
@@ -31830,7 +31842,7 @@ module.exports = __webpack_require__(16).Symbol;
 
 // ECMAScript 6 symbols shim
 var global = __webpack_require__(21);
-var has = __webpack_require__(25);
+var has = __webpack_require__(26);
 var DESCRIPTORS = __webpack_require__(30);
 var $export = __webpack_require__(20);
 var redefine = __webpack_require__(115);
@@ -31845,13 +31857,13 @@ var wksDefine = __webpack_require__(84);
 var enumKeys = __webpack_require__(218);
 var isArray = __webpack_require__(219);
 var anObject = __webpack_require__(29);
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var toPrimitive = __webpack_require__(70);
 var createDesc = __webpack_require__(40);
 var _create = __webpack_require__(81);
 var gOPNExt = __webpack_require__(220);
 var $GOPD = __webpack_require__(117);
-var $DP = __webpack_require__(24);
+var $DP = __webpack_require__(25);
 var $keys = __webpack_require__(41);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
@@ -32069,8 +32081,8 @@ setToStringTag(global.JSON, 'JSON', true);
 
 var META = __webpack_require__(49)('meta');
 var isObject = __webpack_require__(38);
-var has = __webpack_require__(25);
-var setDesc = __webpack_require__(24).f;
+var has = __webpack_require__(26);
+var setDesc = __webpack_require__(25).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
@@ -32159,7 +32171,7 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(26);
+var toIObject = __webpack_require__(27);
 var gOPN = __webpack_require__(116).f;
 var toString = {}.toString;
 
@@ -34697,7 +34709,7 @@ module.exports = function (it) {
 
 "use strict";
 
-var $defineProperty = __webpack_require__(24);
+var $defineProperty = __webpack_require__(25);
 var createDesc = __webpack_require__(40);
 
 module.exports = function (object, index, value) {
@@ -42743,7 +42755,7 @@ var _reactBootstrap = __webpack_require__(48);
 
 var _reactRedux = __webpack_require__(36);
 
-var _redux = __webpack_require__(27);
+var _redux = __webpack_require__(24);
 
 var _cartActions = __webpack_require__(102);
 
@@ -42855,7 +42867,7 @@ var _reactBootstrap = __webpack_require__(48);
 
 var _reactRedux = __webpack_require__(36);
 
-var _redux = __webpack_require__(27);
+var _redux = __webpack_require__(24);
 
 var _reactDom = __webpack_require__(12);
 
@@ -42978,7 +42990,13 @@ var _reactRedux = __webpack_require__(36);
 
 var _reactBootstrap = __webpack_require__(48);
 
+var _redux = __webpack_require__(24);
+
+var _cartActions = __webpack_require__(102);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -42996,6 +43014,21 @@ var Cart = function (_React$Component) {
     }
 
     _createClass(Cart, [{
+        key: 'onDelete',
+        value: function onDelete(_id) {
+
+            var currentBookToDelete = this.props.cart;
+            //determine at which index cart to be deleted
+
+            var indexToDelete = currentBookToDelete.findIndex(function (cart) {
+                return cart._id === _id;
+            });
+
+            var cartAfterDelete = [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)));
+
+            this.props.deleteCartItem(cartAfterDelete);
+        }
+    }, {
         key: 'render',
         value: function render() {
             if (this.props.cart[0]) {
@@ -43076,14 +43109,15 @@ var Cart = function (_React$Component) {
                                 ),
                                 _react2.default.createElement(
                                     _reactBootstrap.Button,
-                                    { bsStyle: 'danger', bsSize: 'small' },
+                                    { bsStyle: 'danger', bsSize: 'small',
+                                        onClick: this.onDelete.bind(this, cartArr._id) },
                                     'DELETE'
                                 )
                             )
                         )
                     )
                 );
-            });
+            }, this);
             return _react2.default.createElement(
                 _reactBootstrap.Panel,
                 { header: 'Cart', bsStyle: 'primary' },
@@ -43101,7 +43135,13 @@ var mapStateToProps = function mapStateToProps(state) {
     };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Cart);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({
+        deleteCartItem: _cartActions.deleteCartItem
+    }, dispatch);
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Cart);
 
 /***/ })
 /******/ ]);

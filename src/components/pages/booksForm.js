@@ -15,7 +15,7 @@ class BooksForm extends React.Component{
             description : findDOMNode(this.refs.description).value,
             price : findDOMNode(this.refs.price).value
         }];
-        this.props.postBooks(book);
+        this.props.postBooks(book)
     }
 
 
