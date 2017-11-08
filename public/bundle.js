@@ -30624,7 +30624,7 @@ function booksReducers() {
             var currentBookToDelete = [].concat(_toConsumableArray(state.books));
             //determine at which index book to be deleted
             var indexToDelete = currentBookToDelete.findIndex(function (book) {
-                return book.id === action.payload.id;
+                return book._id === action.payload._id;
             }
             //return {books:[...state.books, ...action.payload]}
             );
