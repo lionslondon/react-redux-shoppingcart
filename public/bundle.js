@@ -30701,11 +30701,19 @@ function cartReducers() {
 
     switch (action.type) {
         case "ADD_TO_CART":
-            return _extends({}, state, { cart: action.payload });
+            return _extends({}, state, {
+                cart: action.payload,
+                totalAmount: totals(action.payload).amount,
+                totalQty: totals(action.payload).qty
+            });
             break;
 
         case "DELETE_CART_ITEM":
-            return _extends({}, state, { cart: action.payload });
+            return _extends({}, state, {
+                cart: action.payload,
+                totalAmount: totals(action.payload).amount,
+                totalQty: totals(action.payload).qty
+            });
             break;
 
         case "UPDATE_CART":
@@ -30718,11 +30726,32 @@ function cartReducers() {
 
             var cartUpdate = [].concat(_toConsumableArray(currentBookToUpdate.slice(0, indexToUpdate)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(indexToUpdate + 1)));
 
-            return _extends({}, state, { cart: cartUpdate });
+            return _extends({}, state, {
+                cart: cartUpdate,
+                totalAmount: totals(cartUpdate).amount,
+                totalQty: totals(cartUpdate).qty
+
+            });
             break;
     }
     return state;
 }
+
+//CALCULATE TOTALS
+var totals = exports.totals = function totals(payloadArr) {
+    var totalAmount = payloadArr.map(function (cartArr) {
+        return cartArr.price * cartArr.quantity;
+    }).reduce(function (a, b) {
+        return a + b;
+    }, 0); //Start summing from index 0
+
+    var totalQty = payloadArr.map(function (qty) {
+        return qty.quantity;
+    }).reduce(function (a, b) {
+        return a + b;
+    }, 0);
+    return { amount: totalAmount.toFixed(2), qty: totalQty.toFixed(2) };
+};
 
 /***/ }),
 /* 184 */
@@ -42820,7 +42849,7 @@ var BookItem = function (_React$Component) {
                 var _id = this.props._id;
 
                 var cartIndex = this.props.cart.findIndex(function (cart) {
-                    return cart._id = _id;
+                    return cart._id === _id;
                 });
 
                 //IF Returns -1 There are no ITEM WITH SAME ID
@@ -43210,7 +43239,8 @@ var Cart = function (_React$Component) {
                         _react2.default.createElement(
                             'h6',
                             null,
-                            'Total amount:'
+                            'Total amount: ',
+                            this.props.totalAmount
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Button,
@@ -43254,7 +43284,8 @@ var Cart = function (_React$Component) {
                             _react2.default.createElement(
                                 'h6',
                                 null,
-                                'total $:'
+                                'total $: ',
+                                this.props.totalAmount
                             )
                         ),
                         _react2.default.createElement(
@@ -43273,7 +43304,8 @@ var Cart = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
-        cart: state.cart.cart
+        cart: state.cart.cart,
+        totalAmount: state.cart.totalAmount
     };
 };
 
