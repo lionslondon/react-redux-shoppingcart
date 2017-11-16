@@ -2,18 +2,7 @@
 //Books reducers
 //STEP 3 Create reducers
 export function booksReducers(state={
-    books:
-    [{
-        _id:1,
-        title : 'this is the book title',
-        description : 'this is desc',
-        price : 44
-    },{
-        _id:2,
-        title : 'this is the book title2',
-        description : 'this is desc2',
-        price : 52.22
-    }]
+    books:[]
 }, action){
     switch(action.type){
         case "POST_BOOK" :
@@ -50,9 +39,9 @@ export function booksReducers(state={
             , newBookToUpdate, ...currentBookToUpdate.slice(indexToUpdate+1)]}
         break;
 
-        case "GET_BOOK" :
+        case "GET_BOOKS" :
        // let books = state.books.concat(action.payload)
-        return {...state, books:[...state.books]};
+        return {...state, books:[...action.payload]};
         break;
     }
     return state;
