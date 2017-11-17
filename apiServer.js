@@ -120,6 +120,32 @@ app.put('/books/:_id', function(req, res){
 
 })
 
+
+// ---> GET BOOKS IMAGES API <<<---
+app.get('/images', (req ,res) =>{
+  const imgFolder = __dirname + '/public/images/';
+  //REQUIRE FILE SYSTEMS
+  const fs = require('fs');
+  //READ ALL FILES IN THE DIRECTORY
+  fs.readdir(imgFolder, (err, files) =>{
+    if(err){
+      return console.error(err);
+    }
+    //CREATE AN EMPTY ARRAY
+    const filesArr = [];
+    var i = 1;
+    //INTERATE ALL IMAGES IN THE DIRECTORY AND ADD TO THE ARRAY
+    files.forEach((file)=>{
+      filesArr.push({name: file});
+      i++;
+    })
+
+    //SEND THE JSON RESPONSE WITH ARRAY
+    res.json(filesArr);
+
+  })
+})
+
 //END APIS
 
 app.listen(3001, (err) => {
